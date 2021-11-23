@@ -1,100 +1,98 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Text, View, TextInput } from 'react-native';
 
-// import all the components we are going to use
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import SearchableDropdown from '../components/SearchableDropdown.js';
+const [dataSource] = ['Algate East', 'Tower Hill', 'Monument', 'Cannon Street',
+               'Blackfriars', 'Temple', 'Embankment', 'Westminster' ,
+               "St. James's Park", 'Victoria', 'South Kensington', "Earl's Court"];
 
-//import SearchableDropdown component
-import SearchableDropdown from 'react-native-searchable-dropdown';
+const [filtered, setFiltered] = useState(dataSource)
+const [searching, setSearching] = useState(false)
+const onSearch = (text) => {
+  if (text) {
+    setSearching(true)
+    const temp = text.toLowerCase()
 
+    const tempList = dataSource.filter(item => {
+      if (item.match(temp))
+        return item
+    })
+    setFiltered(tempList)
+  }
+  else {
+    setSearching(false)
+    setFiltered(dataSource)
+  }
 
-const items = [
-    { id: 0, name: 'Algate East' },
-    { id: 1, name: 'Tower Hill' },
-    { id: 2, name: 'Monument' },
-    { id: 3, name: 'Cannon Street' },
-    { id: 4, name: 'Blackfriars' },
-    { id: 5, name: 'Temple' },
-    { id: 6, name: 'Embankment' },
-    { id: 7, name: 'Westminster' },
-    { id: 8, name: "St. James's Park" },
-    { id: 9, name: 'Victoria' },
-    { id: 10, name: 'South Kensington' },
-    { id: 11, name: "Earl's Court" },
-  ];
+}
+export default function(props) 
+{
 
-export default function(props) {
- 
-    return (
-        <SafeAreaView style={styles.container}>
-          <View style={styles.container}>
-            <Text style={styles.titleText}>
-              Example of Searchable Dropdown / Picker in React Native
+    return 
+    (
+<View style={styles.container}>
+
+<TextInput
+  style={styles.textInput}
+  placeholder="Search"
+  placeholderTextColor='white'
+  onChangeText={onSearch}
+
+/>
+<View style={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+  <Text style={{ fontSize: 20, marginTop: 20, marginBottom: 20, }}> List of data</Text>
+  <View style={{
+    flexWrap: 'wrap', flexDirection: 'row',
+    justifyContent: 'center'
+
+  }}>
+    {
+      dataSource.map((item, index) => {
+        return (
+          <View style={{
+            margin: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 80, width: 80, backgroundColor: 'gray'
+          }}>
+            <Text style={{ fontSize: 15, }}>
+              {item}
             </Text>
-            <Text style={styles.headingText}>
-              Searchable Dropdown from Static Array
-            </Text>
-            <SearchableDropdown
-              onTextChange={(text) => console.log(text)}
-              //On text change listner on the searchable input
-              onItemSelect={(item) => console.log(item.name)}
-              //onItemSelect called after the selection from the dropdown
-              containerStyle={{ padding: 5 }}
-              //suggestion container style
-              textInputStyle={{
-                //inserted text style
-                padding: 12,
-                borderWidth: 1,
-                borderColor: '#ccc',
-                backgroundColor: '#FAF7F6',
-              }}
-              itemStyle={{
-                //single dropdown item style
-                padding: 10,
-                marginTop: 2,
-                backgroundColor: '#FAF9F8',
-                borderColor: '#bbb',
-                borderWidth: 1,
-              }}
-              itemTextStyle={{
-                //text style of a single dropdown item
-                color: '#222',
-              }}
-              itemsContainerStyle={{
-                //items container style you can pass maxHeight
-                //to restrict the items dropdown hieght
-                maxHeight: '60%',
-              }}
-              items={items}
-              //mapping of item array
-              //default selected item index
-              placeholder="Select Item"
-              //place holder for the search input
-              //resetValue={true}
-              //reset textInput Value with true and false state
-              underlineColorAndroid="transparent"
-              //To remove the underline from the android input
-            />
-           
           </View>
-        </SafeAreaView>
-      );
-    };
-    
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: 'white',
-        padding: 10,
-      },
-      titleText: {
-        padding: 8,
-        fontSize: 16,
-        textAlign: 'center',
-        fontWeight: 'bold',
-      },
-      headingText: {
-        padding: 8,
-      },
-    });
-    
-    
+        )
+      })
+    }
+  </View>
+
+</View>
+
+{/* your components can stay here like anything */}
+{/* and at the end of view */}
+{
+  searching &&
+  <SearchableDropdown
+    onPress={() => setSearching(false)}
+    dataSource={filtered} />
+}
+</View>
+)
+}
+
+
+const styles = StyleSheet.create({
+container: {
+// justifyContent: 'center',
+alignItems: 'center',
+marginTop: '20%',
+flex: 1
+},
+textInput: {
+backgroundColor: '#BFBFBF',
+width: '80%',
+borderRadius: 5,
+height: 50,
+fontSize: 20,
+fontWeight: 'bold',
+paddingHorizontal: 10,
+},
+});
