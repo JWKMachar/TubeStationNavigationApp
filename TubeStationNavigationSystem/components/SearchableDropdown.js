@@ -19,16 +19,16 @@ export default function SearchableDropdown(props) {
                 {
                     dataSource.length ?
 
-                        dataSource.map(item => {
+                        dataSource.map(items => {
                             return (
-                                <View style={styles.itemView}>
-                                    <Text style={styles.itemText}>{item}</Text>
+                                <View>
+                                    <Text style={styles.itemText}>{items}</Text>
                                 </View>
                             )
                         })
 
                         :
-                        <View
+                        <View style={styles.itemView}
                             style={styles.noResultView}>
                             <Text style={styles.noResultText}>No search items matched</Text>
                         </View>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         alignContent: 'center'
     },
     itemView: {
-        // marginHorizontal: '10%',
+        marginHorizontal: '10%',
         backgroundColor: 'white',
         height: 30,
         width: '90%',
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     },
     noResultView: {
         alignSelf: 'center',
-        // margin: 20,
+        //margin: 20,
+        //padding: 100,
         height: 100,
         width: '100%',
         justifyContent: 'center',
