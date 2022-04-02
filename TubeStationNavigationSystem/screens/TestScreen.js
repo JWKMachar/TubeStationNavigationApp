@@ -1,104 +1,67 @@
-import React, { useState } from "react";
-import { Text, View, TextInput, StyleSheet } from "react-native";
 
-import SearchableDropdown from "../components/SearchableDropdown.js";
+import React, { useState, useEffect } from 'react';
 
-export default function (props) {
-  //const [originalData, _] = useState([]);
-  const [dataSource] = useState([
-    "algate east", "tower hill", "monument", "cannon street",
-    "blackfriars", "temple", "embankment", "westminster", "st jamess park", 
-    "victoria", "south kensington", "earls court",])
+import {  FlatList, SafeAreaView, SectionList, StyleSheet, Text, View } from 'react-native';
 
-  const [filtered, setFiltered] = useState([]);
-  const [searching, setSearching] = useState(false);
 
-  const onSearch = (text) => {
-    if (text) {
-      setSearching(true);
-      const temp = text.toLowerCase();
 
-      const tempList = dataSource.filter((item) => {
-        if (item.match(temp)) return item;
-      });
-      setFiltered([...tempList]);
-    } else {
-      setSearching(false);
-      setFiltered([...dataSource]);
-    }
-  };
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
+const items = [
+    { id: 0, name: 'Algate East' },
+    { id: 1, name: 'Tower Hill' },
+    { id: 2, name: 'Monument' },
+    { id: 3, name: 'Cannon Street' },
+    { id: 4, name: 'Blackfriars' },
+    { id: 5, name: 'Temple' },
+    { id: 6, name: 'Embankment' },
+    { id: 7, name: 'Westminster' },
+    { id: 8, name: "St. James's Park" },
+    { id: 9, name: 'Victoria' },
+    { id: 10, name: 'South Kensington' },
+    { id: 11, name: "Earl's Court" },
+];
+
+
+const App = () => {
+  const [searchText, setSearchText] = useState();
+  var selectedIndex = 0
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Search"
-        placeholderTextColor="white"
-        onChangeText={onSearch}
-      />
-      <View
-        style={{
-          justifyContent: "center",
-          alignContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 20, marginTop: 20, marginBottom: 20 }}>
-          List of data
-        </Text>
-        <View
-          style={{
-            flexWrap: "wrap",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          {
-            filtered.map((item, index) => {
-            return (
-              <View
-                style={{
-                  margin: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: 50,
-                  width: 150,
-                  backgroundColor: "grey",
-                }}
-              >
-                <Text style={{ fontSize: 15 }}>{item}</Text>
-              </View>
-            );
-          })}
-        </View>
-      </View>
-
-      {searching && (
-        <SearchableDropdown
-          onPress={(item) =>
-            {
-            setSearching(false)
-          }}
-          dataSource={filtered}
-          />
-      )}
-    </View>
+    
+    <SectionList
+      sections=
+      {[
+        {title: "Paddington", data: ["Edgeware Road", "Baker Street", "Great Portland Street"]},
+        {title: "King's Cross St. Pancras", data: ["Mooregate"]},
+        {title: "Angel", data: []},
+      ]}
+      
+      renderItem={({item}) =>  <Text style={styles.item}>  {item}</Text>}
+      renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>  {section.title}</Text>}
+      keyExtractor={(item, index) => index}
+    />
+  </View>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    marginTop: "20%",
     flex: 1,
-  },
-  textInput: {
-    backgroundColor: "#BFBFBF",
-    width: "80%",
-    borderRadius: 5,
-    height: 50,
-    fontSize: 20,
-    fontWeight: "bold",
-    paddingHorizontal: 10,
-  },
-});
+    paddingTop: 22
+   },
+   sectionHeader: {
+     paddingTop: 2,
+     paddingLeft: 2,
+     paddingRight: 2,
+     paddingBottom: 2,
+     fontSize: 20,
+     fontWeight: 'bold',
+   },
+   item: {
+     padding: 2,
+     fontSize: 16,
+   },
+ });
