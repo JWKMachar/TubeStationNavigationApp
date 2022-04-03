@@ -1,47 +1,37 @@
-# [React Router Example](https://reacttraining.com/react-router/web/guides/quick-start)
+# Maps Example
 
 <p>
-  <!-- Web -->
-  <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-4630EB.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
+  <!-- iOS -->
+  <a href="https://itunes.apple.com/app/apple-store/id982107779">
+    <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
+  </a>
+  <!-- Android -->
+  <a href="https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=blankexample">
+    <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
+  </a>
 </p>
 
-React Router is a universal routing solution that you can use with Expo!
-This demo shows you how to setup your universal application to switch between web and native routers.
+## 🚀 How to use
 
-### ⚽️ Running in the browser
+- Install packages with `yarn` or `npm install`.
+- Run `yarn start` or `npm start` to start the bundler.
+- Open the project in a React runtime to try it:
+  - iOS: [Client iOS](https://itunes.apple.com/app/apple-store/id982107779)
+  - Android: [Client Android](https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=blankexample)
 
-- Create Expo project `expo init`
-- Install the plugin: `yarn add react-router-dom react-router-native` or `npm install --save react-router-dom react-router-native`
-- Create platform specific files to switch between web and native:
-  - [`react-router.js`](https://github.com/expo/examples/blob/master/with-react-router/react-router.js) for web.
-  - [`react-router.native.js`](https://github.com/expo/examples/blob/master/with-react-router/react-router.native.js) for iOS and Android.
-- Now you can use these files to create your universal routes! [Basic Example](App.js)
-  - [Deployed example](https://5e20d26f3f285b0766a74be2--stupefied-perlman-ca9443.netlify.com/about)
+## Adding Native Code
 
-![react-router-native-expo-web-example](https://i.imgur.com/XSCAX19.png "React Router native expo web example")
-![react-router-dom-expo-web-example](https://i.imgur.com/xl1yYmm.png "React Router dom expo web example")
+This project can be run from Expo client app. You may find that you want to add more native code later on. You can do this by ejecting the project and rebuilding it yourself.
 
-### Deploying to Netlify
+- Run `yarn eject` to create the native projects.
+- You can still run your project on Expo client, you just won't be able to access any new native modules you add.
 
-You may find get the following error when visiting URLs other than '/' on when your single page application (SPA) is deployed to Netlify:
+## Publishing
 
-![netlify-error](https://i.imgur.com/BKFNGzH.png "Netlify: Page Not Found error")
+- Configure your app to be able to use react-native-maps in production using this guide : [MapView configuration](https://docs.expo.dev/versions/v38.0.0/sdk/map-view/#configuration)
+- Deploy the native app to the App store and Play store using this guide: [Deployment](https://docs.expo.dev/distribution/app-stores/).
 
-> **Page Not Found**
-> Looks like you've followed a broken link or entered a URL that doesn't exist on this site.
+## 📝 Notes
 
-The problem is that `react-router` creates the routes on the client side so when you visit pages other than the root (ex: `coolproject.netlify.com/about`), Netlify won't know how to redirect the route.
-
-Luckily the solution for this is simple! We can use the [redirects API](https://www.netlify.com/docs/redirects/) provided by Netlify.
-
-- Create a [`web/_redirects`](web/_redirects) to redirect all routes to the `index.html`:
-  ```
-  /*    /index.html   200
-  ```
-  - Creating files in the `web/` folder will copy them to the build folder (`web-build/`). Think of this like `public/` in Create React App projects.
-- Now simply rebuild (`expo build:web`) and deploy your web app (`netlify deploy --dir web-build`)!
-
-#### Example
-
-- ❌ Example deploying [**without** \_redirects](https://5e20d1844d610eee07f5c10e--stupefied-perlman-ca9443.netlify.com/about)
-- ✅ Example deploying [**with** \_redirects](https://5e20d26f3f285b0766a74be2--stupefied-perlman-ca9443.netlify.com/about)
+- Learn more about [MapView](https://docs.expo.dev/versions/v38.0.0/sdk/map-view).
+- Learn more about [react-native-maps](https://github.com/react-native-community/react-native-maps).

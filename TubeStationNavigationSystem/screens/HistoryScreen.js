@@ -1,30 +1,113 @@
-import React, { useState, useEffect, Component, Image} from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+// Example of Searchable Dropdown / Picker in React Native
+// https://aboutreact.com/example-of-searchable-dropdown-picker-in-react-native/
 
-import Card from '../components/card';
+// import React in our codenpm install react-native-searchable-dropdown --save
+import React, { useState, useEffect } from 'react';
+
+// import all the components we are going to use
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+
+//import SearchableDropdown component
+import SearchableDropdown from 'react-native-searchable-dropdown';
+
+//Item array for the dropdown
+const items = [
+    { id: 0, name: 'Algate East' },
+    { id: 1, name: 'Tower Hill' },
+    { id: 2, name: 'Monument' },
+    { id: 3, name: 'Cannon Street' },
+    { id: 4, name: 'Blackfriars' },
+    { id: 5, name: 'Temple' },
+    { id: 6, name: 'Embankment' },
+    { id: 7, name: 'Westminster' },
+    { id: 8, name: "St. James's Park" },
+    { id: 9, name: 'Victoria' },
+    { id: 10, name: 'South Kensington' },
+    { id: 11, name: "Earl's Court" },
+];
 
 const App = () => {
-  const [station, setStation] = useState([
-    {Name:"Paddington",               Key:1},
-    {Name:"Edgeware Road",            Key:2},
-    {Name:"Baker Street",             Key:3},
-    {Name:"Great Portland Street",    Key:4},
-    {Name:"King's Cross St. Pancras", Key:5},
-    {Name:"Mooregate",                Key:6}, 
-    {Name:"Angel",                    Key:7}, 
-  ])
+  //Data Source for the SearchableDropdown
+  const [serverData, setServerData] = useState([]);
+
+  useEffect(() => {
+    fetch('https://aboutreact.herokuapp.com/demosearchables.php')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setServerData(responseJson.results);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
-    <View>
-      <ScrollView>
-      {station.map((e) => {
-        return(
-          <View key={e.Key}>
-            <Card><Text>{e.Name}</Text></Card>
-          </View>
-        )
-      })}
-      </ScrollView>
-    </View>
+      <View style={styles.container}>
+        <SearchableDropdown
+          onTextChange={(text) => console.log(text)}
+          //On text change listner on the searchable input
+          onItemSelect={(item) => alert(JSON.stringify(item))}
+          //onItemSelect called after the selection from the dropdown
+          containerStyle={{ padding: 5 }}
+          //suggestion container style
+          textInputStyle={{
+            padding: 12,
+            borderWidth: 1,
+            borderColor: '#ccc',
+            backgroundColor: '#FAF7F6',
+          }}
+          itemStyle={{
+            padding: 10,
+            marginTop: 2,
+            backgroundColor: '#FAF9F8',
+            borderColor: '#bbb',
+            borderWidth: 1,
+          }}
+          itemTextStyle={{
+            color: '#222',
+          }}
+          itemsContainerStyle={{
+            maxHeight: '60%',
+          }}
+          items={items}
+          //defaultIndex={2}
+          placeholder="Start Station"
+          resetValue={false}
+          underlineColorAndroid="transparent"
+        />
+        <SearchableDropdown
+          onTextChange={(text) => console.log(text)}
+          //On text change listner on the searchable input
+          onItemSelect={(item) => alert(JSON.stringify(item))}
+          //onItemSelect called after the selection from the dropdown
+          containerStyle={{ padding: 5 }}
+          //suggestion container style
+          textInputStyle={{
+            padding: 12,
+            borderWidth: 1,
+            borderColor: '#ccc',
+            backgroundColor: '#FAF7F6',
+          }}
+          itemStyle={{
+            padding: 10,
+            marginTop: 2,
+            backgroundColor: '#FAF9F8',
+            borderColor: '#bbb',
+            borderWidth: 1,
+          }}
+          itemTextStyle={{
+            color: '#222',
+          }}
+          itemsContainerStyle={{
+            maxHeight: '60%',
+          }}
+          items={items}
+          //defaultIndex={1}
+          placeholder="End Station"
+          resetValue={false}
+          underlineColorAndroid="transparent"
+        />
+      </View>
   );
 };
 
