@@ -1,7 +1,12 @@
 {
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.3.0",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "expo": "~42.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
