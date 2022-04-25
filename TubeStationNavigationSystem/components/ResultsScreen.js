@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import MapView, { Circle, Polyline } from "react-native-maps";
+import { ScrollView } from "react-native-web";
 
 const lineColours = {
     "Bakerloo": "#B36305",
@@ -25,8 +26,9 @@ const ResultsScreen = (props) => {
     React.useEffect(() => {
         // IFFE as use effect cannot be async
         (async () => {
-            const raw = await fetch("http://localhost:8081/search?stationOne=Paddington&stationTwo=Tower Hill");
+            //const raw = await fetch("http://localhost:8081/search?stationOne=Paddington&stationTwo=Tower Hill");
             // const raw = await fetch(`http://172.20.10.2:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            const raw = await fetch(`http://91c2-62-254-70-84.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
             setData(await raw.json());
         })()
     }, [props.data]);
@@ -50,48 +52,47 @@ const ResultsScreen = (props) => {
     return (
         <View style={styles.container}>
             {data && (
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: data.start.lat,
-                        longitude: data.start.lng,
-                        latitudeDelta: 0.05,
-                        longitudeDelta: 0.05,
-                    }}
-                >
-                    {renderLine(data.start, data.steps[0])}
-                    {renderLine(data.steps[data.steps.length - 1], data.end)}
-                    {data.steps.map((_, index) => renderLine(data.steps[index], data.steps[index + 1], index))}
-                    <Circle
+                    <MapView
+                        style={styles.map}
+                        initialRegion={{
+                            latitude: data.start.lat,
+                           longitude: data.start.lng,
+                            latitudeDelta: 0.05,
+                            longitudeDelta: 0.05,
+                        }}
+                    >
+                        {renderLine(data.start, data.steps[0])}
+                        {renderLine(data.steps[data.steps.length - 1], data.end)}
+                        {data.steps.map((_, index) => renderLine(data.steps[index], data.steps[index + 1], index))}
+                        <Circle
                         center={{
                             latitude: data.start.lat,
                             longitude: data.start.lng
-                        }}
-                        radius={50}
-                        fillColor="#2cb67d"
-
-                    />
-
-                    {data.steps.map((step) => (
-                        <Circle
-                            key={step.station}
-                            center={{
-                                latitude: step.lat,
-                                longitude: step.lng
                             }}
                             radius={50}
-                            fillColor="#dddddd"
+                            fillColor="#2cb67d"
                         />
-                    ))}
-                    <Circle
-                        center={{
-                            latitude: data.end.lat,
-                            longitude: data.end.lng
-                        }}
-                        radius={50}
-                        fillColor="#2cb67d"
-                    />
-                </MapView>
+
+                        {data.steps.map((step) => (
+                            <Circle
+                                key={step.station}
+                                center={{
+                                    latitude: step.lat,
+                                    longitude: step.lng
+                                }}
+                                radius={25}
+                                fillColor="#dddddd"
+                            />
+                        ))}
+                        <Circle
+                            center={{
+                                latitude: data.end.lat,
+                                longitude: data.end.lng
+                            }}
+                            radius={50}
+                            fillColor="#FF0000"
+                        />
+                    </MapView>
             )}
         </View>
     )

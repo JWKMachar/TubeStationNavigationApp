@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import colours from '../Colours';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ResultsScreen from '../components/ResultsScreen';
+import StationsScreen from '../components/StationsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,8 +20,9 @@ const Wrapper = () => {
 
     return (
         <Stack.Navigator initialRouteName="Search">
-            <Stack.Screen name="Search" component={(props) => <SearchScreen {...props} setData={updateData} />} />
-            <Stack.Screen name="Route" component={(props) => <ResultsScreen {...props} data={data} />} />
+            <Stack.Screen name="Search"     component={(props) => <SearchScreen     {...props} setData={updateData} />} />
+            <Stack.Screen name="MapView"    component={(props) => <ResultsScreen    {...props} data={data} />} />
+            <Stack.Screen name="ListView"   component={(props) => <StationsScreen   {...props} data={data} />} />
         </Stack.Navigator>
     )
 }
@@ -31,7 +33,9 @@ const SearchScreen = (props) => {
 
     React.useEffect(() => {
         (async() => {
-            const raw = await fetch("http://localhost:8081/stations");
+            //const raw = await fetch("http://localhost:8081/stations");
+            //const raw = await fetch("http://127.0.0.1:4040/stations");
+            const raw = await fetch("http://91c2-62-254-70-84.ngrok.io/stations");
             setStations(await raw.json());
         })()
     },[])
@@ -39,18 +43,19 @@ const SearchScreen = (props) => {
     const [selectedStartStation, setSelectedStartStation] = React.useState();
     const [selectedEndStation, setSelectedEndStation] = React.useState();
 
-    const search = () => {
+    const MapView = () => {
         props.setData(selectedStartStation, selectedEndStation);
-        props.navigation.navigate("Route");
+        props.navigation.navigate("MapView");
+    }
+    const ListView = () => {
+        props.setData(selectedStartStation, selectedEndStation);
+        props.navigation.navigate("ListView");
     }
 
     if(!stations) return null;
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={{ fontSize: 0, marginTop: 10, marginBottom: 20 }}>
-                Start Station
-            </Text>
             <Picker
                 selectedValue={selectedStartStation}
                 onValueChange={(itemValue, itemIndex) =>
@@ -60,9 +65,6 @@ const SearchScreen = (props) => {
                     <Picker.Item label={x} value={x} />
                 ))}
             </Picker>
-            <Text style={{ fontSize: 0, marginTop: 10, marginBottom: 20 }}>
-                End Station
-            </Text>
             <Picker
                 selectedValue={selectedEndStation}
                 onValueChange={(itemValue, itemIndex) =>
@@ -72,10 +74,13 @@ const SearchScreen = (props) => {
                     <Picker.Item label={x} value={x} />
                 ))}
             </Picker>
-            <Pressable style={styles.button} onPress={() => search()}>
-                <Text style={styles.buttonText}>Search</Text>
+            <Pressable style={styles.button} onPress={() => MapView()}>
+                <Text style={styles.buttonText}>Map View</Text>
             </Pressable>
-
+            <Pressable style={styles.button} onPress={() => ListView()}>
+                <Text style={styles.buttonText}>List View</Text>
+            </Pressable>
+        
         </SafeAreaView>
     );
 };
@@ -87,15 +92,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colours.background,
         padding: 10,
-    },
-    titleText: {
-        padding: 8,
-        fontSize: 16,
-        textAlign: 'center',
-        fontWeight: 'bold',
-    },
-    headingText: {
-        padding: 8,
     },
     button: {
         borderColor: '#F6F6F6',
