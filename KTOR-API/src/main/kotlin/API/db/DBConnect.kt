@@ -8,8 +8,11 @@ class DBConnect private constructor() {
 
     private val config = Configuration.Builder()
         //.uri("bolt://localhost")
-        .uri("neo4j+s://99156147.databases.neo4j.io")
-        .credentials("neo4j", "PASSWORD")
+
+        //.uri("neo4j+s://99156147.databases.neo4j.io")
+        .uri("neo4j://31.214.246.48:7687")
+        //.credentials("neo4j", "gopher-teacher-motel-sherman-garage-7272")
+        .credentials("neo4j", "test")
         .build()
 
     private val session = SessionFactory(config,"API.model")

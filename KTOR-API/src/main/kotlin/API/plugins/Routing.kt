@@ -45,6 +45,14 @@ fun Application.configureRouting() {
             call.respond(stations)
         }
 
+        get("/select") {
+            val selected = call.request.queryParameters["selected"]
+            val query = "match(n:STATION {name: \"${selected}\"}) return n"
+            val session = DBConnect.getSession()
+            val station = session.query<STATION>(query)
+            call.respond(station)
+
+        }
 
         get("/search") {
             val from = call.request.queryParameters["stationOne"]
