@@ -9,11 +9,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import SearchScreen from './SearchScreen';
-import HistoryScreen from './HistoryScreen';
+import Information from './Information';
 
 const searchName = 'Search';
 const testName = 'Test';
 const historyName = 'History';
+const informationName = 'Information';
 
 
 const Tab = createBottomTabNavigator();
@@ -39,6 +40,9 @@ export default function NavigationBar() {
                         } else if (routeName === historyName) {
                             iconName = focused ? 'history' : 'history-toggle-off'
                             return <MaterialIcons name={iconName} size={size} color={color} />
+                        } else if (routeName === informationName) {
+                            iconName = focused ? 'information-circle-outline' : 'informaion-outline'
+                            return <ion-icon name={iconName} size={size} color={color} />
                         }
                     },
                 })}
@@ -50,7 +54,7 @@ export default function NavigationBar() {
                     style: { padding: 10, height: 70 }
                 }}>
                 <Tab.Screen name={searchName} component={SearchScreen} />
-                <Tab.Screen name={historyName} component={HistoryScreen} />
+                <Tab.Screen name={informationName} component={Information} />
 
             </Tab.Navigator>
         </NavigationContainer>
