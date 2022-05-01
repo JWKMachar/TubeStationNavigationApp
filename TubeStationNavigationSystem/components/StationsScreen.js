@@ -25,19 +25,22 @@ const StationsScreen = (props) => {
     React.useEffect(() => {
         // IFFE as use effect cannot be async
         (async () => {
+            console.log(props.data);
             //const raw = await fetch("http://localhost:8081/search?stationOne=Paddington&stationTwo=Tower Hill");
-            // const raw = await fetch(`http://172.20.10.2:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
-            const raw = await fetch(`http://dd7c-62-254-70-84.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            //const raw = await fetch(`http://0.0.0.0:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            const raw = await fetch(`http://be1b-167-98-155-43.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
             setData(await raw.json());
         })()
     }, [props.data]);
 
     return (
         <View>
+            <Card data={data.start} />
         {data &&(
-            <Card>{data.steps}</Card>
-        
+            data.steps.map(x => <Card data={x} />)
         )}
+            <Card data={data.end} />
+        
         </View>
 
     

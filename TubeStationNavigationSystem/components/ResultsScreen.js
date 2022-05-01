@@ -27,8 +27,9 @@ const ResultsScreen = (props) => {
         // IFFE as use effect cannot be async
         (async () => {
             //const raw = await fetch("http://localhost:8081/search?stationOne=Paddington&stationTwo=Tower Hill");
-            // const raw = await fetch(`http://172.20.10.2:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
-            const raw = await fetch(`http://91c2-62-254-70-84.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            //const raw = await fetch(`http://172.20.10.2:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            //const raw = await fetch(`http://0.0.0.0:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            const raw = await fetch(`hhttp://b81a-62-254-10-235.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
             setData(await raw.json());
         })()
     }, [props.data]);

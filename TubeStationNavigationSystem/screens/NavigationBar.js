@@ -3,10 +3,11 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import SearchScreen from './SearchScreen';
 import Information from './Information';
@@ -41,8 +42,8 @@ export default function NavigationBar() {
                             iconName = focused ? 'history' : 'history-toggle-off'
                             return <MaterialIcons name={iconName} size={size} color={color} />
                         } else if (routeName === informationName) {
-                            iconName = focused ? 'information-circle-outline' : 'informaion-outline'
-                            return <ion-icon name={iconName} size={size} color={color} />
+                            iconName = focused ? 'info' : 'info-outline'
+                            return <MaterialIcons name={iconName} size={size} color={color} />
                         }
                     },
                 })}

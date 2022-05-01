@@ -33,9 +33,9 @@ const SearchScreen = (props) => {
 
     React.useEffect(() => {
         (async() => {
-            //const raw = await fetch("http://localhost:8081/stations");
+            //const raw = await fetch("http://0.0.0.0:8081/stations");
             //const raw = await fetch("http://127.0.0.1:4040/stations");
-            const raw = await fetch("http://91c2-62-254-70-84.ngrok.io/stations");
+            const raw = await fetch("http://be1b-167-98-155-43.ngrok.io/stations");
             setStations(await raw.json());
         })()
     },[])

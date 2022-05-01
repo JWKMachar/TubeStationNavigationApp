@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function Card(props){
-    console.log(props.data);
+export default function InfoCard(props){
     return(
         <View style={styles.card}>
             <View style={styles.cardcontent}>

@@ -15,7 +15,7 @@ const Wrapper = () => {
 
     const [data, setData] = React.useState({});
 
-    const updateData = (start, end) => setData({ start, end })
+    const updateData = (start) => setData({ start })
 
     return (
         <Stack.Navigator initialRouteName="Information">
@@ -32,9 +32,9 @@ const Information = (props) =>
 
     React.useEffect(() => {
         (async() => {
-            //const raw = await fetch("http://localhost:8081/stations");
+            //const raw = await fetch("http://0.0.0.0:8081/stations");
             //const raw = await fetch("http://127.0.0.1:4040/stations");
-            const raw = await fetch("http://dd7c-62-254-70-84.ngrok.io/stations");
+            const raw = await fetch("http://66b6-62-254-10-235.ngrok.io/stations");
             setStations(await raw.json());
         })()
     },[])
@@ -42,9 +42,11 @@ const Information = (props) =>
     const [selectStation, setSelectStation] = React.useState();
 
     const select = () => {
+        console.log(selectStation)
         props.setData(selectStation);
         props.navigation.navigate("Station Information");
     }
+    
 
     if(!stations) return null;
     
@@ -53,7 +55,9 @@ const Information = (props) =>
             <Picker
                 selectedValue={selectStation}
                 onValueChange={(itemValue, itemIndex) =>
-                    setSelectStation(stations[itemIndex])
+                    {
+                        setSelectStation(stations[itemIndex])
+                    }
                 }>
                 {stations.map(x => (
                     <Picker.Item label={x} value={x}/>
@@ -62,6 +66,7 @@ const Information = (props) =>
             <Pressable style={styles.button} onPress={() => select()}>
                 <Text style={styles.buttonText}>Station Information</Text>
             </Pressable>
+            <Text>{stations.data}</Text>
         </SafeAreaView>
     );
 };

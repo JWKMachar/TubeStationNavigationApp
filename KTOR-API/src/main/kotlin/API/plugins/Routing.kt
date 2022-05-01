@@ -51,31 +51,23 @@ fun Application.configureRouting() {
             val session = DBConnect.getSession()
             val station = session.query<STATION>(query)
             call.respond(station)
-
         }
 
         get("/search") {
+//Store HTTP request Parameters
             val from = call.request.queryParameters["stationOne"]
             val to = call.request.queryParameters["stationTwo"]
 
-            //used when converting long/lat into a estimated time to the finish
+            //used when converting long/lat into an estimated time to the finish
             val AVG_TRAIN_SPEED = 0.25 // Kilometers per min
 
-//            if(from == null || to == null) {
-//                call.respond(HttpStatusCode.BadRequest)
-//                return@get
-//            }
-
+//Connect to DB
             val session = DBConnect.getSession()
-            //val result = session.query<STATION>("Match(A:STATION {name:\"Paddington\"}) Return (A)")
-            //val result1 = session.query<STATION>("Match(A:STATION {name:\"$from\"}) Return(A)")
-            //val result2 = session.query<STATION>("Match(A:STATION {name:\"$to\"}) Return(A)")
-            //val result = session.loadAll(STATION::class.java, 0)
 
 //Load Graph
             val query = "MATCH(A :STATION {name: \"${from}\"})\n" +
                     "MATCH(B :STATION {name:\"${to}\"})\n" +
-                    "MATCH P = (A)-[*..7]->(B)\n" +
+                    "MATCH P = (A)-[*..5]->(B)\n" +
                     "RETURN(P)"
             var result = session.query<STATION>(query).toMutableList()
 
@@ -84,7 +76,6 @@ fun Application.configureRouting() {
             }
 
 //Load Start and End Node
-            //val startNode = result.find{ it.name == from } ?: return@get call.respond(400)
             val startNode = result.find{ it.name == from }
             val endNode = result.find{ it.name == to }
 
@@ -108,8 +99,6 @@ fun Application.configureRouting() {
                 var lon2 = Math.toRadians(endNode!!.Longitude)
                 var lat1 = Math.toRadians(currentNode.Latitude)
                 var lat2 = Math.toRadians(endNode.Latitude)
-
-                // Haversine formula
 
                 // Haversine formula
                 var dlon: Double = lon2 - lon1
@@ -145,8 +134,6 @@ fun Application.configureRouting() {
                         lat2 = Math.toRadians(endNode.Latitude)
 
                         // Haversine formula
-
-                        // Haversine formula
                         dlon = lon2 - lon1
                         dlat = lat2 - lat1
                         a = (Math.pow(Math.sin(dlat / 2), 2.0)
@@ -157,7 +144,6 @@ fun Application.configureRouting() {
                         val newH = (c * r) / AVG_TRAIN_SPEED
 
 // Calculate f (sum g and h)
-
                         var newF = newG + newH
                         //added heuristic if Changing Train Lines
                         if (connection.Line != currentNode?.parentLine) {
@@ -199,9 +185,6 @@ fun Application.configureRouting() {
             }
 
             // [ Station, Connection, Station, Connection ]
-            // mutableListOf<String>()
-            // list.add(JSONSerlialize(Station))
-            // list.add(JSONSerlialize(Connection))
             if(result != null) {
                 var route = mutableListOf<STATION>()
                 while(currentNode != startNode) {
@@ -239,8 +222,6 @@ fun Application.configureRouting() {
                 call.respond(response)
 
             }
-//            val res = TestResponse(from = from, to = to)
-//            call.respond(res)
         }
     }
 }
