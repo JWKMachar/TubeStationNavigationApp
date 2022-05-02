@@ -27,7 +27,7 @@ const StationsScreen = (props) => {
         (async () => {
             //const raw = await fetch("http://localhost:8081/search?stationOne=Paddington&stationTwo=Tower Hill");
             //const raw = await fetch(`http://0.0.0.0:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
-            const raw = await fetch(`http://c8bd-62-254-10-235.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            const raw = await fetch(`http://5c28-62-254-10-235.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
             setData(await raw.json());
         })()
     }, [props.data]);

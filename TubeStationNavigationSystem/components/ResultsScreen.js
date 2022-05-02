@@ -29,7 +29,7 @@ const ResultsScreen = (props) => {
             //const raw = await fetch("http://localhost:8081/search?stationOne=Paddington&stationTwo=Tower Hill");
             //const raw = await fetch(`http://172.20.10.2:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
             //const raw = await fetch(`http://0.0.0.0:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
-            const raw = await fetch(`http://8389-62-254-10-235.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            const raw = await fetch(`http://5c28-62-254-10-235.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
             setData(await raw.json());
             console.log(await raw.json());
         })()
