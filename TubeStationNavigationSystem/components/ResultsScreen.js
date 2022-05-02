@@ -29,14 +29,14 @@ const ResultsScreen = (props) => {
             //const raw = await fetch("http://localhost:8081/search?stationOne=Paddington&stationTwo=Tower Hill");
             //const raw = await fetch(`http://172.20.10.2:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
             //const raw = await fetch(`http://0.0.0.0:8081/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
-            const raw = await fetch(`hhttp://b81a-62-254-10-235.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
+            const raw = await fetch(`http://8389-62-254-10-235.ngrok.io/search?stationOne=${props.data.start}&stationTwo=${props.data.end}`);
             setData(await raw.json());
+            console.log(await raw.json());
         })()
     }, [props.data]);
 
     const renderLine = (start, end, index) => {
         if (index == data.steps.lengh - 1 || !end) return null;
-        console.log({ start, end });
         return (
             <Polyline
                 coordinates={[
@@ -56,6 +56,7 @@ const ResultsScreen = (props) => {
                     <MapView
                         style={styles.map}
                         initialRegion={{
+                            
                             latitude: data.start.lat,
                            longitude: data.start.lng,
                             latitudeDelta: 0.05,

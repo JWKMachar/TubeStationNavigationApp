@@ -34,7 +34,7 @@ const Information = (props) =>
         (async() => {
             //const raw = await fetch("http://0.0.0.0:8081/stations");
             //const raw = await fetch("http://127.0.0.1:4040/stations");
-            const raw = await fetch("http://66b6-62-254-10-235.ngrok.io/stations");
+            const raw = await fetch("http://1a9b-62-254-10-235.ngrok.io/stations");
             setStations(await raw.json());
         })()
     },[])
@@ -42,8 +42,6 @@ const Information = (props) =>
     const [selectStation, setSelectStation] = React.useState();
 
     const select = () => {
-        console.log(selectStation)
-        props.setData(selectStation);
         props.navigation.navigate("Station Information");
     }
     
